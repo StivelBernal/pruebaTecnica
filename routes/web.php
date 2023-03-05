@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('map');
 });
 
-Route::get('/details', function () {
-    return view('locationDetails');
+Route::get('/ciudad/{city?}', function ($city = null) {
+    if (!isset($city))
+        return view('map');
+    else 
+        return view('city', array(
+            'city' => $city
+        ));
 });
