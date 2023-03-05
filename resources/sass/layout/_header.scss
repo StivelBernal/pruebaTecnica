@@ -1,0 +1,100 @@
+.headerContainer {
+  position: relative;
+  .fix-header-container {
+    display: block;
+    position: relative;
+    width: 100%;
+    z-index: 5;
+
+    
+    img {
+      height: 60px;
+      width: auto;
+    }
+   
+    .fix-header-container-primary {
+      background-color: white;
+      box-shadow: 0px 3px 15px #00000029;
+      .fix-header-container-primary-content {
+        align-items: center;
+        display: flex;
+        height: 94px;
+        width: 100%;
+        @include max-width-page;
+  
+        .menu-container {
+          align-items: center;
+          display: grid;
+          justify-content: end;
+          grid-template-columns: max-content max-content;
+          width: 100%;
+
+          .call-to-action-group {
+            align-items: center;
+            justify-content: end;
+            gap: 42px;
+            display: flex;
+          }
+          .fixperto-primary-menu {
+            align-items: center;
+            display: flex;
+            justify-content: flex-end;
+            gap: 52px;
+            li{
+              list-style: none;
+              a {
+                color: #002E72;
+                font-size: rem(20);
+                font-weight:  600;
+                gap: 30px;
+                line-height: rem(24);
+                text-decoration: none;
+                &:hover {
+                  color: var(--fx-cian);
+                }
+              }
+            }
+          }
+  
+          .menu-container-call-to-action {
+            align-items: center;
+            background-color: #FF7900;
+            border-radius: 26px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            font-size: rem(20);
+            font-weight: 500;
+            height: 42px;
+            justify-content: center;
+            line-height: rem(25);
+            text-decoration: none;
+            width: 157px;
+  
+            &.cian {
+              background-color: var(--fx-cian);
+              width: 197px;
+            }
+            &:hover {
+              opacity: 0.7;
+            }
+          }
+        }
+  
+      }
+    }
+  
+    &.fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      transition: all ease .2s;
+      width: 100%;
+      z-index: 12;
+      &.hidden {
+        transform: translateY(-100%);
+      }
+      transform: translateY(0);
+    }
+  }
+}

@@ -1,0 +1,163 @@
+.FxInputAddress {
+ 
+  .fxInputContainer {
+    margin:  0;
+  }
+  .InputStyle {
+    align-items: center;
+    background: #f3f3f3;
+    border-radius: 21px;
+    border: none;
+    color: #28262B;
+    cursor: pointer;
+    display: flex;
+    font-size: rem(16);
+    font-weight: 500;
+    gap: 8px;
+    justify-content: space-between;
+    min-height: 42px;
+    padding: 12px 20px;
+    width: 100%;
+    .FxInputAddressIcon {
+      height: 22px;
+      width: max-content;
+      svg {
+        height: 22px;
+        width: 15px;
+      }
+    }
+  }
+}
+
+.addressDialog {
+  width: 400px;
+  .fx-dialog-content  {
+    padding: 30px 24px;
+  }
+
+  .search-input {
+    align-items: center;
+    border-radius: 24px 24px 0 0;
+    background-color: transparent;
+    display: flex;
+    margin-top: 20px;
+    position: relative;
+    width: 100%;
+    .fxInputContainer {
+      background-color: transparent;
+      width: 100%;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      z-index: 11;
+      label {
+        display: none;
+      }
+      input {
+        border: 1px solid #28262B;
+        border-radius: 24px;
+        color: #28262B;
+        font-weight: bold;
+        height: 46px;
+        padding-right: 36px;
+        &::placeholder {
+          font-size: rem(14) !important;
+          color: #28262B;
+        }
+      }
+    }
+    svg.search-icon {
+        fill: #28262B;
+        height: 14px;
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-6px);
+        width: 14px;
+        z-index: 11;
+    }
+    .search-input-results {
+      background-color: white;
+      border: 1px solid #707070;
+      border-radius: 0 0 6px 6px;
+      bottom: 8px;
+      height: max-content;
+      position: absolute;
+      padding: 22px 0px 2px;
+      top: 50%;
+      width: 100%;
+      z-index: 10;
+      &.load {
+        bottom: 8px;
+        .loader-box {
+          padding-top: 10px;
+        }
+      }
+      .search-input-result-item {
+        align-items: center;
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        min-height: 37px;
+        gap: 10px;
+        padding: 6px 10px;
+        width: 100%;
+        &:hover {
+          background-color: #e5e5e580;
+        }
+        svg {
+          fill: #222222;
+          height: 18px;
+          width: 12px;
+        }
+        span {
+          font-size: rem(14);
+        }
+      }
+    }
+  }
+
+  .addressDialogTopActions {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    height: 22px;
+    margin: 7px 0;
+    svg {
+      height: 20px;
+      width: 20px;
+      fill: var(--fx-cian);
+    }
+    span {
+      color: var(--fx-cian);
+      font-size: rem(18);
+      font-weight: bold;
+      line-height: rem(22);
+    }
+  }
+  .googlemapWrapper {
+    border: 1px solid #28262B;
+    border-radius: 8px;
+    height: max-content;
+    padding: 2px;
+    overflow: hidden;
+    width: 100%;
+  }
+  #googlemap {
+    box-sizing: border-box;
+    height: 50vh;
+    &.inactive {
+      height: 0;
+    }
+  }
+  .FxInputAddressActions {
+    display: flex;
+    justify-content: center;
+    padding: 0 40px;
+    width: 100%;
+    button {
+      max-width: 60%;
+      min-width: 286px;
+    }
+  }
+}
