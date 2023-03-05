@@ -490,7 +490,6 @@ var MapContent = function MapContent() {
     if (!displayMap.current && (0, utils_1.hasValue)(dataLocationDefault)) {
       displayMap.current = true;
       mapLoading();
-      console.log('🚀 ~ file: MapContent.tsx:7 ~ apiKey:', apiKey);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataLocationDefault]);
@@ -875,7 +874,6 @@ var MapContent = function MapContent() {
               url: '/assets/img/fx-marker.svg',
               size: new googleMaps.current.Size(49, 76)
             };
-            console.log(dataLocationDefault, dataLocationDefault);
             dataLocationDefault.forEach(function (_ref17) {
               var lat = _ref17.lat,
                 lon = _ref17.lon,
@@ -906,7 +904,7 @@ var MapContent = function MapContent() {
                 });
               });
             });
-          case 3:
+          case 2:
           case "end":
             return _context11.stop();
         }
@@ -928,48 +926,6 @@ var MapContent = function MapContent() {
   return react_2["default"].createElement(react_2["default"].Fragment, null, react_2["default"].createElement("div", {
     className: 'mapContainer'
   }, react_2["default"].createElement("div", {
-    className: 'addressDialogTopActions'
-  }, react_2["default"].createElement("div", {
-    className: 'search-input',
-    ref: searchMap
-  }, react_2["default"].createElement("div", {
-    className: "inputContainer"
-  }, react_2["default"].createElement("input", {
-    type: 'text',
-    value: valueSearch,
-    placeholder: 'Escribe la ciudad',
-    name: 'address-component',
-    onChange: onChangeSearch,
-    onBlur: onChangeSearch
-  }), react_2["default"].createElement("svg", {
-    className: 'search-icon'
-  }, react_2["default"].createElement("use", {
-    xlinkHref: '#svg-search'
-  }))), (listAutocomplete.length > 0 || load) && load ? react_2["default"].createElement("div", {
-    className: 'search-input-results load'
-  }, react_2["default"].createElement("div", {
-    className: 'loader-box'
-  })) : listAutocomplete.length > 0 && react_2["default"].createElement("div", {
-    className: 'search-input-results'
-  }, listAutocomplete.map(function (x, index) {
-    return react_2["default"].createElement("div", {
-      key: index,
-      className: 'search-input-result-item',
-      onClick: function onClick() {
-        return positionSelected(x);
-      }
-    }, react_2["default"].createElement("svg", {
-      className: 'icon'
-    }, react_2["default"].createElement("use", {
-      xlinkHref: '#svg-location'
-    })), react_2["default"].createElement("span", null, x.description));
-  }))), react_2["default"].createElement("button", {
-    className: "addressDialogTopActionsItem bttn",
-    onClick: function onClick() {
-      return changeView();
-    },
-    disabled: !(0, utils_1.hasValue)(addressObject)
-  }, "VER DETALLES DEL LUGAR")), react_2["default"].createElement("div", {
     className: 'googlemapWrapper'
   }, react_2["default"].createElement("div", {
     id: 'googlemap'

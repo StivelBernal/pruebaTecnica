@@ -25,32 +25,37 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/ciudad/{city?}', function ($city = null) {
-    if (!isset($city))
+Route::get('/ciudad/{city}', function ($city) {
 
-        return view('map', [
-            'title' => 'Inicio mapa',
-            'locations' => [
-                'NewYork' => AppWeatherController::getDataLocation(40.710196697138045, -73.99848264930623),
-                'Orlando' => AppWeatherController::getDataLocation(28.552296, -81.406534),
-                'Miami' => AppWeatherController::getDataLocation(25.756729, -80.200279)
-            ]
-        ]);
-    else 
-        // traeremos los datos de la ciudad
-        // switch ($city) {
-        //     case 'value':
-        //         # code...
-        //      'Orlando' => AppWeatherController::getDataLocation(28.552296, -81.406534, true),
-        //         break;
-            
-        //     default:
-        //         # code...
-        //         break;
-        // }
+        $cityData = null; 
 
+        $cityS = strtolower(str_replace(' ', '', $city));
+
+        switch ($cityS) {
+            case 'orlando':
+                $cityData = AppWeatherController::getDataLocation(40.710196, -73.998482);
+                break;
+            case 'newyork':
+                $cityData = AppWeatherController::getDataLocation(28.552296, -81.406534);
+                break;
+            case 'miami':
+                $cityData = AppWeatherController::getDataLocation(25.756729, -80.200279);
+                break;
+            default: 
+                return view('map',  [
+                    'title' => 'Inicio',
+                    'locations' => [
+                        'NewYork' => AppWeatherController::getDataLocation(40.710196697138045, -73.99848264930623),
+                        'Orlando' => AppWeatherController::getDataLocation(28.552296, -81.406534),
+                        'Miami' => AppWeatherController::getDataLocation(25.756729, -80.200279),
+                    ]
+                ]);
+            break;
+
+        }
 
         return view('city', array(
-            'city' => $city
+            'city' => $city,
+            'cityData' => $cityData
         ));
-});
+})->where('Orlando', 'NewYork', 'New York', 'Miami');

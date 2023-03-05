@@ -30,7 +30,6 @@ export const MapContent = () => {
     if (!displayMap.current && hasValue(dataLocationDefault)) {
       displayMap.current = true
       mapLoading()
-      console.log('🚀 ~ file: MapContent.tsx:7 ~ apiKey:', apiKey)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataLocationDefault])
@@ -294,7 +293,6 @@ export const MapContent = () => {
       size: new googleMaps.current.Size(49, 76)
     }
 
-    console.log(dataLocationDefault, dataLocationDefault)
     dataLocationDefault.forEach(({lat, lon, name, current}: any) => {
       const newMarker = new googleMaps.current.Marker({
         position: {lat, lng: lon},
@@ -367,7 +365,7 @@ export const MapContent = () => {
     <>
       <div className='mapContainer'>
 
-        <div className='addressDialogTopActions'>
+        {/* <div className='addressDialogTopActions'>
           <div className='search-input' ref={searchMap}>
             <div className="inputContainer">
               <input
@@ -407,7 +405,7 @@ export const MapContent = () => {
             VER DETALLES DEL LUGAR
           </button>
 
-        </div>
+        </div> */}
 
         <div className='googlemapWrapper'>
           <div id='googlemap' />
