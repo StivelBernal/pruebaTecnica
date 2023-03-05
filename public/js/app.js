@@ -1,4 +1,5 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./node_modules/@googlemaps/js-api-loader/dist/index.esm.js":
@@ -7,7 +8,6 @@
   \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DEFAULT_ID": () => (/* binding */ DEFAULT_ID),
@@ -343,7 +343,6 @@ class Loader {
   \******************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 
 
 Object.defineProperty(exports, "__esModule", ({
@@ -352,17 +351,52 @@ Object.defineProperty(exports, "__esModule", ({
 // import './bootstrap.js'
 __webpack_require__(/*! ./components/Map.tsx */ "./resources/js/components/Map.tsx");
 __webpack_require__(/*! ./layout/header.ts */ "./resources/js/layout/header.ts");
+__webpack_require__(/*! ./icons.ts */ "./resources/js/icons.ts");
 
 /***/ }),
 
-/***/ "./resources/js/components/FxInputAddress/MapContent.tsx":
-/*!***************************************************************!*\
-  !*** ./resources/js/components/FxInputAddress/MapContent.tsx ***!
-  \***************************************************************/
+/***/ "./resources/js/components/Map.tsx":
+/*!*****************************************!*\
+  !*** ./resources/js/components/Map.tsx ***!
+  \*****************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-"use strict";
-/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_dom_1 = __importDefault(__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js"));
+var MapContent_1 = __webpack_require__(/*! ./MapContent/MapContent */ "./resources/js/components/MapContent/MapContent.tsx");
+var MapContext_1 = __webpack_require__(/*! ../context/MapContext */ "./resources/js/context/MapContext.tsx");
+function Map(data) {
+  return react_1["default"].createElement(MapContext_1.MapProvider, {
+    dataDefault: data
+  }, react_1["default"].createElement("div", {
+    className: 'Map'
+  }, react_1["default"].createElement(MapContent_1.MapContent, null)));
+}
+exports["default"] = Map;
+document.querySelectorAll('.MapComponent').forEach(function (element) {
+  react_dom_1["default"].render(react_1["default"].createElement(Map, {
+    data: JSON.parse(element.dataset.cities)
+  }), element);
+});
+
+/***/ }),
+
+/***/ "./resources/js/components/MapContent/MapContent.tsx":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/MapContent/MapContent.tsx ***!
+  \***********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
 
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -413,12 +447,13 @@ var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var js_api_loader_1 = __webpack_require__(/*! @googlemaps/js-api-loader */ "./node_modules/@googlemaps/js-api-loader/dist/index.esm.js");
 var utils_1 = __webpack_require__(/*! ../../utils */ "./resources/js/utils.ts");
 var react_2 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var apiKey = process.env.REACT_APP_GMAP_KEY2;
+var MapContext_1 = __importDefault(__webpack_require__(/*! ../../context/MapContext */ "./resources/js/context/MapContext.tsx"));
+var apiKey = "AIzaSyB740qqQQtVxhX9ryTvxLX-ujT_uOBpsRY";
 /**
  * @function MapContent
  * @description Componente de mapa con buscador para hacerlo mas dinamico
  * @return ReactComponent
-  */
+*/
 var MapContent = function MapContent() {
   var _ref = (0, react_1.useState)(false),
     _ref2 = _slicedToArray(_ref, 2),
@@ -440,6 +475,8 @@ var MapContent = function MapContent() {
     _ref10 = _slicedToArray(_ref9, 2),
     addressObject = _ref10[0],
     setAddressObject = _ref10[1];
+  var _ref11 = (0, react_1.useContext)(MapContext_1["default"]),
+    dataLocationDefault = _ref11.dataLocationDefault;
   var map = (0, react_1.useRef)(null);
   var displayMap = (0, react_1.useRef)(false);
   var form = (0, react_1.useRef)({
@@ -450,12 +487,13 @@ var MapContent = function MapContent() {
   var marker = (0, react_1.useRef)(null);
   var searchMap = (0, react_1.useRef)(null);
   (0, react_1.useEffect)(function () {
-    if (!displayMap.current) {
+    if (!displayMap.current && (0, utils_1.hasValue)(dataLocationDefault)) {
       displayMap.current = true;
       mapLoading();
+      console.log('🚀 ~ file: MapContent.tsx:7 ~ apiKey:', apiKey);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dataLocationDefault]);
   var searchOptions = function searchOptions(value) {
     return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
       var list;
@@ -488,9 +526,9 @@ var MapContent = function MapContent() {
   /**
    * Si da click en el mapa y o mueve el marcador
    */
-  var getCoordsPoint = function getCoordsPoint(_ref11) {
-    var lat = _ref11.lat,
-      lng = _ref11.lng;
+  var getCoordsPoint = function getCoordsPoint(_ref12) {
+    var lat = _ref12.lat,
+      lng = _ref12.lng;
     return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
@@ -536,9 +574,9 @@ var MapContent = function MapContent() {
       }, _callee3);
     }));
   };
-  var geocodeSites = function geocodeSites(_ref12) {
-    var address = _ref12.address,
-      placeId = _ref12.placeId;
+  var geocodeSites = function geocodeSites(_ref13) {
+    var address = _ref13.address,
+      placeId = _ref13.placeId;
     return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
       return _regeneratorRuntime().wrap(function _callee4$(_context4) {
         while (1) switch (_context4.prev = _context4.next) {
@@ -571,36 +609,8 @@ var MapContent = function MapContent() {
       }, _callee4);
     }));
   };
-  var getPosition = function getPosition() {
-    if (navigator.geolocation) {
-      return new Promise(function (resolve) {
-        navigator.geolocation.getCurrentPosition(resolve, function (error) {
-          var reason = '';
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              reason = 'User denied the request for Geolocation.';
-              break;
-            case error.POSITION_UNAVAILABLE:
-              reason = 'Location information is unavailable.';
-              break;
-            case error.TIMEOUT:
-              reason = 'The request to get user location timed out.';
-              break;
-          }
-          resolve({
-            error: 'Problem with geolocation',
-            reason: reason
-          });
-        });
-      });
-    }
-    return Promise.resolve({
-      error: 'Geolocation is not supported',
-      reason: ''
-    });
-  };
-  var placesSites = function placesSites(_ref13) {
-    var input = _ref13.input;
+  var placesSites = function placesSites(_ref14) {
+    var input = _ref14.input;
     return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
       return _regeneratorRuntime().wrap(function _callee5$(_context5) {
         while (1) switch (_context5.prev = _context5.next) {
@@ -685,9 +695,9 @@ var MapContent = function MapContent() {
       setAddressObject(objectPoint);
     }
   };
-  var pointToMap = function pointToMap(_ref14) {
-    var lng = _ref14.lng,
-      lat = _ref14.lat;
+  var pointToMap = function pointToMap(_ref15) {
+    var lng = _ref15.lng,
+      lat = _ref15.lat;
     return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
       var center;
       return _regeneratorRuntime().wrap(function _callee6$(_context6) {
@@ -724,15 +734,12 @@ var MapContent = function MapContent() {
             _context7.next = 14;
             break;
           case 5:
-            // let position: any = await getPosition()
-            // if (position.error) {
-            //   console.error(position.error)
             position = {
               coords: {
-                latitude: 4.6740454,
-                longitude: -74.0532236
+                latitude: 41.039711,
+                longitude: -99.106670
               }
-            }; // }
+            };
             _context7.prev = 6;
             _context7.next = 9;
             return createPotitionedMap({
@@ -780,9 +787,9 @@ var MapContent = function MapContent() {
       }, _callee8);
     }));
   };
-  var createPotitionedMap = function createPotitionedMap(_ref15) {
-    var lat = _ref15.lat,
-      lng = _ref15.lng;
+  var createPotitionedMap = function createPotitionedMap(_ref16) {
+    var lat = _ref16.lat,
+      lng = _ref16.lng;
     var withoutInitialPin = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
       var center;
@@ -808,12 +815,14 @@ var MapContent = function MapContent() {
             };
             map.current = new googleMaps.current.Map(document.getElementById('googlemap'), {
               center: center,
-              zoom: 15
+              zoom: 4
             });
             map.current.addListener('click', function (mapsMouseEvent) {
               return setMapPin(mapsMouseEvent.latLng, true);
             });
-            if (!withoutInitialPin) setMapPin(center);
+            setTimeout(function () {
+              setMapPinDefault();
+            }, 3000);
           case 9:
           case "end":
             return _context9.stop();
@@ -821,68 +830,83 @@ var MapContent = function MapContent() {
       }, _callee9);
     }));
   };
-  var getPositionHandler = function getPositionHandler() {
+  var setMapPin = function setMapPin(position, withForm) {
     return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
-      var position;
+      var _yield$getCoordsPoint, data;
       return _regeneratorRuntime().wrap(function _callee10$(_context10) {
         while (1) switch (_context10.prev = _context10.next) {
           case 0:
-            _context10.next = 2;
-            return getPosition();
-          case 2:
-            position = _context10.sent;
-            if (position.error) {
-              console.error(position.error);
-              position = {
-                coords: {
-                  latitude: 4.6740454,
-                  longitude: -74.0532236
-                }
-              };
+            console.log('🚀 ~ file: MapContent.tsx:313 ~ setMapPin ~ position:', position);
+            if ((0, utils_1.hasValue)(marker.current)) marker.current.setMap(null);
+            // const icon = {
+            //   url: '/assets/img/fx-marker.svg',
+            //   size: new googleMaps.current.Size(49, 76)
+            // }
+            marker.current = new googleMaps.current.Marker({
+              position: position,
+              // icon,
+              map: map.current
+            });
+            if (!withForm) {
+              _context10.next = 10;
+              break;
             }
-            try {
-              pointToMap({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-              });
-            } catch (error) {
-              console.error(error);
-            }
-          case 5:
+            form.current = position;
+            _context10.next = 7;
+            return getCoordsPoint(position);
+          case 7:
+            _yield$getCoordsPoint = _context10.sent;
+            data = _yield$getCoordsPoint.data;
+            saveLocation(data.results);
+          case 10:
           case "end":
             return _context10.stop();
         }
       }, _callee10);
     }));
   };
-  var setMapPin = function setMapPin(position, withForm) {
+  var setMapPinDefault = function setMapPinDefault() {
     return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
-      var icon, _yield$getCoordsPoint, data;
+      var icon;
       return _regeneratorRuntime().wrap(function _callee11$(_context11) {
         while (1) switch (_context11.prev = _context11.next) {
           case 0:
-            if ((0, utils_1.hasValue)(marker.current)) marker.current.setMap(null);
             icon = {
-              url: '/assets/images/fx-marker.svg',
+              url: '/assets/img/fx-marker.svg',
               size: new googleMaps.current.Size(49, 76)
             };
-            marker.current = new googleMaps.current.Marker({
-              position: position,
-              icon: icon,
-              map: map.current
+            console.log(dataLocationDefault, dataLocationDefault);
+            dataLocationDefault.forEach(function (_ref17) {
+              var lat = _ref17.lat,
+                lon = _ref17.lon,
+                name = _ref17.name,
+                current = _ref17.current;
+              var newMarker = new googleMaps.current.Marker({
+                position: {
+                  lat: lat,
+                  lng: lon
+                },
+                icon: icon,
+                title: name,
+                map: map.current
+              });
+              var contentString = "\n        <div class=\"content-info-map\">\n          <div class=\"content-info-location-img\">\n            <img src=\"/assets/img/clima/".concat(current.weather[0].icon, ".svg\" />\n          </div> \n\n          <a class=\"content-info-location-title\" href=\"/ciudad/").concat(name, "\">").concat(name, "</a>\n            <div class=\"content-info-location-data\">\n              <div class=\"content-info-location-data-item\">\n                <strong>Humedad: </strong> ").concat(current.humidity, "%\n              </div> \n              <div class=\"content-info-location-data-item\">\n                <strong>Temperatura: </strong> ").concat(current.temp.toFixed(0), "\xB0\n              </div> \n              <div class=\"content-info-location-data-item\">\n                <strong>Clima: </strong> ").concat(current.weather[0].description, "\n              </div> \n            </div> \n          </div> \n\n        </div> \n      ");
+              var infowindow = new googleMaps.current.InfoWindow({
+                content: contentString
+              });
+              infowindow.open({
+                backgroundClassName: 'infoStv',
+                anchor: newMarker,
+                map: map
+              });
+              newMarker.addListener("click", function () {
+                infowindow.open({
+                  anchor: newMarker,
+                  map: map
+                });
+              });
             });
-            if (!withForm) {
-              _context11.next = 10;
-              break;
-            }
-            form.current = position;
-            _context11.next = 7;
-            return getCoordsPoint(position);
-          case 7:
-            _yield$getCoordsPoint = _context11.sent;
-            data = _yield$getCoordsPoint.data;
-            saveLocation(data.results);
-          case 10:
+          case 3:
           case "end":
             return _context11.stop();
         }
@@ -904,20 +928,24 @@ var MapContent = function MapContent() {
   return react_2["default"].createElement(react_2["default"].Fragment, null, react_2["default"].createElement("div", {
     className: 'mapContainer'
   }, react_2["default"].createElement("div", {
+    className: 'addressDialogTopActions'
+  }, react_2["default"].createElement("div", {
     className: 'search-input',
     ref: searchMap
+  }, react_2["default"].createElement("div", {
+    className: "inputContainer"
   }, react_2["default"].createElement("input", {
     type: 'text',
     value: valueSearch,
-    placeholder: "Ingresa ac\xE1 la ciudad",
+    placeholder: 'Escribe la ciudad',
     name: 'address-component',
     onChange: onChangeSearch,
     onBlur: onChangeSearch
   }), react_2["default"].createElement("svg", {
     className: 'search-icon'
   }, react_2["default"].createElement("use", {
-    xlinkHref: '#svg-fx-search'
-  })), (listAutocomplete.length > 0 || load) && load ? react_2["default"].createElement("div", {
+    xlinkHref: '#svg-search'
+  }))), (listAutocomplete.length > 0 || load) && load ? react_2["default"].createElement("div", {
     className: 'search-input-results load'
   }, react_2["default"].createElement("div", {
     className: 'loader-box'
@@ -933,24 +961,15 @@ var MapContent = function MapContent() {
     }, react_2["default"].createElement("svg", {
       className: 'icon'
     }, react_2["default"].createElement("use", {
-      xlinkHref: '#svg-fx-location'
+      xlinkHref: '#svg-location'
     })), react_2["default"].createElement("span", null, x.description));
-  }))), react_2["default"].createElement("div", {
-    className: 'addressDialogTopActions',
-    onClick: getPositionHandler
-  }, react_2["default"].createElement("svg", {
-    className: 'search-icon'
-  }, react_2["default"].createElement("use", {
-    xlinkHref: '#svg-fx-my-location'
-  })), react_2["default"].createElement("span", null, "Encu\xE9ntrame"), react_2["default"].createElement("div", {
-    className: 'FxInputAddressActions'
-  }, react_2["default"].createElement("button", {
-    className: 'bttn',
-    disabled: !(0, utils_1.hasValue)(addressObject),
+  }))), react_2["default"].createElement("button", {
+    className: "addressDialogTopActionsItem bttn",
     onClick: function onClick() {
       return changeView();
-    }
-  }, "VER M\xC1S DETALLES"))), react_2["default"].createElement("div", {
+    },
+    disabled: !(0, utils_1.hasValue)(addressObject)
+  }, "VER DETALLES DEL LUGAR")), react_2["default"].createElement("div", {
     className: 'googlemapWrapper'
   }, react_2["default"].createElement("div", {
     id: 'googlemap'
@@ -963,15 +982,20 @@ exports.MapContent = MapContent;
 
 /***/ }),
 
-/***/ "./resources/js/components/Map.tsx":
-/*!*****************************************!*\
-  !*** ./resources/js/components/Map.tsx ***!
-  \*****************************************/
+/***/ "./resources/js/context/MapContext.tsx":
+/*!*********************************************!*\
+  !*** ./resources/js/context/MapContext.tsx ***!
+  \*********************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-"use strict";
 
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
   if (k2 === undefined) k2 = k;
   var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -1003,28 +1027,99 @@ var __importStar = this && this.__importStar || function (mod) {
   __setModuleDefault(result, mod);
   return result;
 };
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
+exports.MapProvider = void 0;
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var react_dom_1 = __importDefault(__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js"));
-var MapContent_1 = __webpack_require__(/*! ./FxInputAddress/MapContent */ "./resources/js/components/FxInputAddress/MapContent.tsx");
-function Map() {
-  (0, react_1.useEffect)(function () {
-    // disable no existe
-    console.log("testtest", 'process.env.MIX_MAPS_API');
-  }, []);
-  return react_1["default"].createElement("div", {
-    className: 'Map'
-  }, react_1["default"].createElement(MapContent_1.MapContent, null));
-}
-exports["default"] = Map;
-react_dom_1["default"].render(react_1["default"].createElement(Map, null), document.getElementById('MapComponent'));
+var MapReducer_1 = __webpack_require__(/*! ./MapReducer */ "./resources/js/context/MapReducer.tsx");
+var react_2 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var utils_1 = __webpack_require__(/*! ../utils */ "./resources/js/utils.ts");
+var initialState = {
+  dataLocationDefault: []
+};
+var MapContext = (0, react_1.createContext)({});
+var MapProvider = function MapProvider(_ref) {
+  var children = _ref.children,
+    dataDefault = _ref.dataDefault;
+  (0, react_2.useEffect)(function () {
+    if ((0, utils_1.hasValue)(dataDefault)) {
+      var cities = [];
+      for (var key in dataDefault.data) {
+        cities.push(Object.assign(Object.assign({}, dataDefault.data[key]), {
+          name: key
+        }));
+      }
+      console.log(cities);
+      setDataLotationDefault(cities);
+    }
+  }, [dataDefault]);
+  var _ref2 = (0, react_1.useReducer)(MapReducer_1.MapReducer, initialState),
+    _ref3 = _slicedToArray(_ref2, 2),
+    state = _ref3[0],
+    dispatch = _ref3[1];
+  var setDataLotationDefault = function setDataLotationDefault(state) {
+    dispatch({
+      type: 'setDataLotationDefault',
+      payload: state
+    });
+  };
+  return react_1["default"].createElement(MapContext.Provider, {
+    value: Object.assign(Object.assign({}, state), {
+      setDataLotationDefault: setDataLotationDefault
+    })
+  }, children);
+};
+exports.MapProvider = MapProvider;
+exports["default"] = MapContext;
+
+/***/ }),
+
+/***/ "./resources/js/context/MapReducer.tsx":
+/*!*********************************************!*\
+  !*** ./resources/js/context/MapReducer.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.MapReducer = void 0;
+var MapReducer = function MapReducer(state, action) {
+  switch (action.type) {
+    case 'setDataLotationDefault':
+      return Object.assign(Object.assign({}, state), {
+        dataLocationDefault: action.payload
+      });
+    default:
+      return state;
+  }
+};
+exports.MapReducer = MapReducer;
+
+/***/ }),
+
+/***/ "./resources/js/icons.ts":
+/*!*******************************!*\
+  !*** ./resources/js/icons.ts ***!
+  \*******************************/
+/***/ (() => {
+
+
+
+/**
+ * Carga todos los iconos necesario para la plataforma con la posibilidad de dar colores personalizados
+ */
+/* eslint-disable one-var */
+var svgWrap = document.createElement('div'),
+  svgData = "\n\n\n  <!-- SVG-location-->  \n  <svg style=\"display: none;\">\n    <symbol id=\"svg-location\" viewBox=\"0 0 9.189 13.12\" preserveAspectRatio=\"xMinYMin meet\">\n      <path d=\"M12.095,3A4.591,4.591,0,0,0,7.5,7.595c0,3.446,4.595,8.533,4.595,8.533s4.595-5.087,4.595-8.533A4.591,4.591,0,0,0,12.095,3Zm0,6.236a1.641,1.641,0,1,1,1.641-1.641A1.642,1.642,0,0,1,12.095,9.236Z\" transform=\"translate(-7.5 -3)\" />\n    </symbol>\n  </svg>\n\n  <!-- SVG-location-->\n\n  <!-- SVG my-location-->  \n  <svg style=\"display: none;\">\n    <symbol id=\"svg-my-location\" viewBox=\"0 0 19 19\" preserveAspectRatio=\"xMinYMin meet\">\n      <path d=\"M11,7.545A3.455,3.455,0,1,0,14.455,11,3.454,3.454,0,0,0,11,7.545Zm7.721,2.591a7.768,7.768,0,0,0-6.857-6.857V1.5H10.136V3.279a7.768,7.768,0,0,0-6.857,6.857H1.5v1.727H3.279a7.768,7.768,0,0,0,6.857,6.857V20.5h1.727V18.721a7.768,7.768,0,0,0,6.857-6.857H20.5V10.136ZM11,17.045A6.045,6.045,0,1,1,17.045,11,6.041,6.041,0,0,1,11,17.045Z\" transform=\"translate(-1.5 -1.5)\" />\n    </symbol>\n  </svg>\n  <!-- SVG my-location-->\n\n\n  <!-- SVG search-->  \n  <svg style=\"display: none;\">\n    <symbol id=\"svg-search\" viewBox=\"0 0 13.674 13.674\" preserveAspectRatio=\"xMinYMin meet\">\n      <path d=\"M5.929-.028a5.929,5.929,0,1,0,0,11.857,5.86,5.86,0,0,0,2.812-.695,1.694,1.694,0,0,0,.22.22l1.694,1.694a1.728,1.728,0,1,0,2.439-2.439L11.4,8.916a1.694,1.694,0,0,0-.271-.22,5.849,5.849,0,0,0,.745-2.812A5.935,5.935,0,0,0,5.946-.045Zm0,1.694A4.215,4.215,0,0,1,10.164,5.9,4.248,4.248,0,0,1,9.046,8.814l-.051.051a1.694,1.694,0,0,0-.22.22,4.239,4.239,0,0,1-2.863,1.067,4.235,4.235,0,0,1,0-8.47Z\" transform=\"translate(0 0.045)\" />\n    </symbol>\n  </svg>\n  <!-- SVG search-->\n  \n  <!-- SVG marker-->  \n  <svg style=\"display: none;\">\n    <symbol id=\"svg-marker\" viewBox=\"0 0 15.117 21.595\" preserveAspectRatio=\"xMinYMin meet\">\n      <defs>\n        <clipPath id=\"clip-path-marker\">\n          <rect id=\"Rect\xE1ngulo_107\" />\n        </clipPath>\n      </defs>\n      <g transform=\"translate(-354.883 -991.25)\">\n        <g transform=\"translate(188.627 196.358)\">\n          <path d=\"M15.058,3A7.553,7.553,0,0,0,7.5,10.558c0,5.669,7.558,14.037,7.558,14.037s7.558-8.368,7.558-14.037A7.553,7.553,0,0,0,15.058,3Z\" transform=\"translate(158.756 791.892)\" fill=\"#08d5ff\"/>\n          <g transform=\"translate(172.184 800.076)\">\n            <g clip-path=\"url(#clip-path-marker)\">\n              <path d=\"M.157,0H1.7a.157.157,0,0,1,.125.062L4.231,3.226,1.821,6.389a.157.157,0,0,1-.125.062H.157A.157.157,0,0,1,.032,6.2L2.3,3.226.032.252A.157.157,0,0,1,.157,0\" transform=\"translate(0)\" fill=\"#fff\"/>\n            </g>\n          </g>\n        </g>\n      </g> \n    </symbol>\n  </svg>\n  <!-- SVG marker-->\n\n\n  ";
+svgWrap.innerHTML = svgData;
+document.body.appendChild(svgWrap);
+/**
+ * @module Utils/icons
+ */
 
 /***/ }),
 
@@ -1034,7 +1129,6 @@ react_dom_1["default"].render(react_1["default"].createElement(Map, null), docum
   \***************************************/
 /***/ (() => {
 
-"use strict";
 
 
 var headerStatic = document.getElementById('fix-header-container-static');
@@ -1063,7 +1157,6 @@ if (headerFixed && headerStatic) {
   \*******************************/
 /***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
 
 Object.defineProperty(exports, "__esModule", ({
@@ -1087,203 +1180,8 @@ exports.hasValue = hasValue;
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./node_modules/process/browser.js":
-/*!*****************************************!*\
-  !*** ./node_modules/process/browser.js ***!
-  \*****************************************/
-/***/ ((module) => {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
 
 
 /***/ }),
@@ -1294,7 +1192,6 @@ process.umask = function() { return 0; };
   \*************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
 /**
  * @license React
  * react-dom.development.js
@@ -31168,7 +31065,6 @@ if (
   \*****************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-"use strict";
 
 
 function checkDCE() {
@@ -31212,7 +31108,6 @@ if (false) {} else {
   \*****************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
-"use strict";
 /* module decorator */ module = __webpack_require__.nmd(module);
 /**
  * @license React
@@ -33963,7 +33858,6 @@ if (
   \*************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-"use strict";
 
 
 if (false) {} else {
@@ -33979,7 +33873,6 @@ if (false) {} else {
   \*************************************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 /**
  * @license React
  * scheduler.development.js
@@ -34624,7 +34517,6 @@ if (
   \*****************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-"use strict";
 
 
 if (false) {} else {

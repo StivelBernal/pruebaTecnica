@@ -1,21 +1,23 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import ReactDom from 'react-dom'
-import { MapContent } from './FxInputAddress/MapContent'
+import { MapContent } from './MapContent/MapContent'
+import { MapProvider } from '../context/MapContext';
 
-function Map() {
-  useEffect(() => {
-    // disable no existe
-    console.log(process.env.MIX_MAPS_API, 'process.env.MIX_MAPS_API')
-  }, [])
-  
+function Map(data : any) {
+ 
   return (
-    <div className='Map'>
-      <MapContent />
-    </div>
+    <MapProvider dataDefault={data}>
+      <div className='Map'>
+        <MapContent />
+      </div>
+    </MapProvider>
+
   )
 }
 
 export default Map
 
-ReactDom.render(<Map />, document.getElementById('MapComponent'))
+document.querySelectorAll('.MapComponent').forEach((element: any) => {
+  ReactDom.render(<Map data={JSON.parse(element.dataset.cities)} />, element)
+})
 

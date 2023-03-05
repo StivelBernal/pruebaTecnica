@@ -23,14 +23,6 @@ h1, h2, h3 {
   font-weight: 800;
 }
 
-.Map {
-  background-color: grey;
-  color: white;
-  font-weight: bold;
-  height: 100px;
-  width: 100px;
-}
-
 * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -74,7 +66,7 @@ h1, h2, h3 {
   }
 }
 
-.content-container {
+.content-wrapper {
   min-height: 70vh;
 }
 .fx-row {
@@ -96,10 +88,10 @@ h1, h2, h3 {
   }
 }
 
-.content-container {
+.content-wrapper {
   @include max-width-page;
 }
 
-button {
+button.bttn {
   @include call-to-action;
 }

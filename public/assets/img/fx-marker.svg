@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48.726" height="76.108" viewBox="0 0 48.726 76.108">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_107" data-name="Rectángulo 107" width="13.637" height="20.794" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_808" data-name="Grupo 808" transform="translate(-187.5 -783.892)">
+    <path id="Icon_material-location-on" data-name="Icon material-location-on" d="M31.863,3A24.345,24.345,0,0,0,7.5,27.363c0,18.272,24.363,45.246,24.363,45.246S56.226,45.635,56.226,27.363A24.345,24.345,0,0,0,31.863,3Z" transform="translate(180 780.892)" fill="#08d5ff"/>
+    <g id="Grupo_503" data-name="Grupo 503" transform="translate(206.607 800.603)">
+      <g id="Grupo_59" data-name="Grupo 59" clip-path="url(#clip-path)">
+        <path id="Trazado_63" data-name="Trazado 63" d="M.506,0H5.468a.506.506,0,0,1,.4.2l7.766,10.2-7.766,10.2a.505.505,0,0,1-.4.2H.506a.506.506,0,0,1-.4-.812L7.4,10.4.1.812A.506.506,0,0,1,.506,0" transform="translate(0)" fill="#fff"/>
+      </g>
+    </g>
+    <circle id="Elipse_93" data-name="Elipse 93" cx="2.5" cy="2.5" r="2.5" transform="translate(209.244 855)" fill="#002e72"/>
+  </g>
+</svg>

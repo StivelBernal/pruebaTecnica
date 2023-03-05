@@ -30,7 +30,7 @@
   height: 94px;
   width: 100%;
   margin: 0 auto;
-  max-width: 1300px;
+  max-width: 1000px;
   width: 100%;
 }
 .headerContainer .fix-header-container .fix-header-container-primary .fix-header-container-primary-content .menu-container {
@@ -101,77 +101,57 @@
   transform: translateY(-100%);
 }
 
-.FxInputAddress .fxInputContainer {
-  margin: 0;
-}
-.FxInputAddress .InputStyle {
-  align-items: center;
-  background: #f3f3f3;
-  border-radius: 21px;
-  border: none;
-  color: #28262B;
-  cursor: pointer;
-  display: flex;
-  font-size: 1.1428571429rem;
-  font-weight: 500;
-  gap: 8px;
-  justify-content: space-between;
-  min-height: 42px;
-  padding: 12px 20px;
+.Map {
   width: 100%;
 }
-.FxInputAddress .InputStyle .FxInputAddressIcon {
-  height: 22px;
-  width: -moz-max-content;
-  width: max-content;
-}
-.FxInputAddress .InputStyle .FxInputAddressIcon svg {
-  height: 22px;
-  width: 15px;
-}
 
-.addressDialog {
-  width: 400px;
+.mapContainer {
+  width: 100%;
 }
-.addressDialog .fx-dialog-content {
-  padding: 30px 24px;
+.mapContainer .addressDialogTopActions {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 20px;
+  height: 50px;
+  margin: 40px 0;
 }
-.addressDialog .search-input {
+.mapContainer .addressDialogTopActions .search-input {
   align-items: center;
   border-radius: 24px 24px 0 0;
   background-color: transparent;
   display: flex;
-  margin-top: 20px;
   position: relative;
-  width: 100%;
 }
-.addressDialog .search-input .fxInputContainer {
+.mapContainer .addressDialogTopActions .search-input .inputContainer {
   background-color: transparent;
-  width: 100%;
   margin-top: 0px;
   margin-bottom: 0px;
+  position: relative;
+  width: -moz-max-content;
+  width: max-content;
   z-index: 11;
 }
-.addressDialog .search-input .fxInputContainer label {
+.mapContainer .addressDialogTopActions .search-input .inputContainer label {
   display: none;
 }
-.addressDialog .search-input .fxInputContainer input {
+.mapContainer .addressDialogTopActions .search-input .inputContainer input {
   border: 1px solid #28262B;
   border-radius: 24px;
   color: #28262B;
   font-weight: bold;
   height: 46px;
-  padding-right: 36px;
+  padding: 0 46px;
 }
-.addressDialog .search-input .fxInputContainer input::-moz-placeholder {
+.mapContainer .addressDialogTopActions .search-input .inputContainer input::-moz-placeholder {
   font-size: 1rem !important;
   color: #28262B;
 }
-.addressDialog .search-input .fxInputContainer input::placeholder {
+.mapContainer .addressDialogTopActions .search-input .inputContainer input::placeholder {
   font-size: 1rem !important;
   color: #28262B;
 }
-.addressDialog .search-input svg.search-icon {
+.mapContainer .addressDialogTopActions .search-input .inputContainer svg.search-icon {
   fill: #28262B;
   height: 14px;
   position: absolute;
@@ -181,7 +161,7 @@
   width: 14px;
   z-index: 11;
 }
-.addressDialog .search-input .search-input-results {
+.mapContainer .addressDialogTopActions .search-input .search-input-results {
   background-color: white;
   border: 1px solid #707070;
   border-radius: 0 0 6px 6px;
@@ -194,13 +174,13 @@
   width: 100%;
   z-index: 10;
 }
-.addressDialog .search-input .search-input-results.load {
+.mapContainer .addressDialogTopActions .search-input .search-input-results.load {
   bottom: 8px;
 }
-.addressDialog .search-input .search-input-results.load .loader-box {
+.mapContainer .addressDialogTopActions .search-input .search-input-results.load .loader-box {
   padding-top: 10px;
 }
-.addressDialog .search-input .search-input-results .search-input-result-item {
+.mapContainer .addressDialogTopActions .search-input .search-input-results .search-input-result-item {
   align-items: center;
   cursor: pointer;
   display: grid;
@@ -210,37 +190,32 @@
   padding: 6px 10px;
   width: 100%;
 }
-.addressDialog .search-input .search-input-results .search-input-result-item:hover {
+.mapContainer .addressDialogTopActions .search-input .search-input-results .search-input-result-item:hover {
   background-color: rgba(229, 229, 229, 0.5019607843);
 }
-.addressDialog .search-input .search-input-results .search-input-result-item svg {
+.mapContainer .addressDialogTopActions .search-input .search-input-results .search-input-result-item svg {
   fill: #222222;
   height: 18px;
   width: 12px;
 }
-.addressDialog .search-input .search-input-results .search-input-result-item span {
+.mapContainer .addressDialogTopActions .search-input .search-input-results .search-input-result-item span {
   font-size: 1rem;
 }
-.addressDialog .addressDialogTopActions {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  gap: 8px;
-  height: 22px;
-  margin: 7px 0;
+.mapContainer .addressDialogTopActions .addressDialogTopActionsItem {
+  padding: 0 20px;
 }
-.addressDialog .addressDialogTopActions svg {
+.mapContainer .addressDialogTopActions .addressDialogTopActionsItem svg {
   height: 20px;
   width: 20px;
   fill: var(--fx-cian);
 }
-.addressDialog .addressDialogTopActions span {
+.mapContainer .addressDialogTopActions .addressDialogTopActionsItem span {
   color: var(--fx-cian);
   font-size: 1.2857142857rem;
   font-weight: bold;
   line-height: 1.5714285714rem;
 }
-.addressDialog .googlemapWrapper {
+.mapContainer .googlemapWrapper {
   border: 1px solid #28262B;
   border-radius: 8px;
   height: -moz-max-content;
@@ -249,22 +224,44 @@
   overflow: hidden;
   width: 100%;
 }
-.addressDialog #googlemap {
+.mapContainer #googlemap {
   box-sizing: border-box;
   height: 50vh;
 }
-.addressDialog #googlemap.inactive {
+.mapContainer #googlemap.inactive {
   height: 0;
 }
-.addressDialog .FxInputAddressActions {
+.mapContainer .content-info-map {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.mapContainer .content-info-map .content-info-location-img {
   display: flex;
   justify-content: center;
-  padding: 0 40px;
+  margin: 6px 0;
+}
+.mapContainer .content-info-map .content-info-location-img img {
+  height: 40px;
+  width: 40px;
+}
+.mapContainer .content-info-map .content-info-location-title {
+  color: #222222;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
   width: 100%;
 }
-.addressDialog .FxInputAddressActions button {
-  max-width: 60%;
-  min-width: 286px;
+.mapContainer .content-info-map .content-info-location-data {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 8px;
+}
+.mapContainer .content-info-map .content-info-location-data .content-info-location-data-item {
+  color: #222222;
+  display: flex;
+  gap: 6px;
 }
 
 html, body {
@@ -283,14 +280,6 @@ html, body {
 h1, h2, h3 {
   font-family: Montserrat, HelveticaNeue, Helvetica, sans-serif;
   font-weight: 800;
-}
-
-.Map {
-  background-color: grey;
-  color: white;
-  font-weight: bold;
-  height: 100px;
-  width: 100px;
 }
 
 * {
@@ -2735,7 +2724,7 @@ h1, h2, h3 {
   gap: 100px;
 }
 
-.content-container {
+.content-wrapper {
   min-height: 70vh;
 }
 
@@ -2811,13 +2800,13 @@ h1, h2, h3 {
   width: calc(98% / 12) !important;
 }
 
-.content-container {
+.content-wrapper {
   margin: 0 auto;
-  max-width: 1300px;
+  max-width: 1000px;
   width: 100%;
 }
 
-button {
+button.bttn {
   align-items: center;
   background-color: var(--fx-cian);
   border-radius: 12px;
@@ -2830,12 +2819,12 @@ button {
   height: 47px;
   justify-content: center;
   transition: all linear 0.5s;
-  width: 100px;
+  min-width: 100px;
 }
-button:hover {
+button.bttn:hover {
   background-color: var(--fx-orange);
   opacity: 0.7;
 }
-button:focus {
+button.bttn:focus {
   outline: none;
 }

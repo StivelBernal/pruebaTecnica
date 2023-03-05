@@ -1,22 +1,23 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import { hasValue } from '../../utils';
 import React from 'react';
+import MapContext from '../../context/MapContext';
 
-const apiKey: any = process.env.REACT_APP_GMAP_KEY2
+const apiKey: any = process.env.MIX_MAPS_API
 
 /**
  * @function MapContent
  * @description Componente de mapa con buscador para hacerlo mas dinamico
  * @return ReactComponent
-  */
+*/
 export const MapContent = () => {
   const [load, setLoad] = useState<boolean>(false)
   const [valueSearch, setValueSearch] = useState<string>('')
   const [listAutocomplete, setListAutocomplete] = useState<any[]>([])
   const [session, setSession] = useState<any>(null)
   const [addressObject, setAddressObject] = useState<any>(null)
-
+  const { dataLocationDefault } = useContext(MapContext)
 
   const map: any = useRef(null)
   const displayMap: any = useRef(false)
@@ -24,14 +25,15 @@ export const MapContent = () => {
   const googleMaps: any = useRef(null)
   const marker: any = useRef(null)
   const searchMap: any = useRef(null)
-
+  
   useEffect(() => {
-    if (!displayMap.current) {
+    if (!displayMap.current && hasValue(dataLocationDefault)) {
       displayMap.current = true
       mapLoading()
+      console.log('🚀 ~ file: MapContent.tsx:7 ~ apiKey:', apiKey)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dataLocationDefault])
 
   const searchOptions = async (value: string) => {
     try {
@@ -101,32 +103,6 @@ export const MapContent = () => {
           resolve([])
         }
       })
-    })
-  }
-
-  const getPosition = () => {
-    if (navigator.geolocation) {
-      return new Promise((resolve) => {
-        navigator.geolocation.getCurrentPosition(resolve, (error) => {
-          let reason = ''
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              reason = 'User denied the request for Geolocation.'
-              break
-            case error.POSITION_UNAVAILABLE:
-              reason = 'Location information is unavailable.'
-              break
-            case error.TIMEOUT:
-              reason = 'The request to get user location timed out.'
-              break
-          }
-          resolve({ error: 'Problem with geolocation', reason })
-        })
-      })
-    }
-    return Promise.resolve({
-      error: 'Geolocation is not supported',
-      reason: ''
     })
   }
 
@@ -244,16 +220,12 @@ export const MapContent = () => {
     if (hasValue(form.current.lat) && hasValue(form.current.lng)) {
       await createPotitionedMap(form.current)
     } else {
-      // let position: any = await getPosition()
-      // if (position.error) {
-      //   console.error(position.error)
       const position = {
         coords: {
-          latitude: 4.6740454,
-          longitude: -74.0532236
+          latitude: 41.039711,
+          longitude: -99.106670
         }
       }
-      // }
       try {
         await createPotitionedMap({
           lat: position.coords.latitude,
@@ -285,42 +257,27 @@ export const MapContent = () => {
     const center: any = { lat, lng }
     map.current = new googleMaps.current.Map(document.getElementById('googlemap'), {
       center,
-      zoom: 15
+      zoom: 4
     })
 
     map.current.addListener('click', (mapsMouseEvent: any) =>
       setMapPin(mapsMouseEvent.latLng, true)
     )
-    if (!withoutInitialPin) setMapPin(center)
-  }
-
-  const getPositionHandler = async () => {
-    let position: any = await getPosition()
-    if (position.error) {
-      console.error(position.error)
-      position = {
-        coords: {
-          latitude: 4.6740454,
-          longitude: -74.0532236
-        }
-      }
-    }
-    try {
-      pointToMap({ lat: position.coords.latitude, lng: position.coords.longitude })
-    } catch (error) {
-      console.error(error)
-    }
+    setTimeout(() => {
+      setMapPinDefault()
+    }, 3000);
   }
 
   const setMapPin = async (position: any, withForm ?: any) => {
+    console.log('🚀 ~ file: MapContent.tsx:313 ~ setMapPin ~ position:', position)
     if (hasValue(marker.current)) marker.current.setMap(null)
-    const icon = {
-      url: '/assets/images/fx-marker.svg',
-      size: new googleMaps.current.Size(49, 76)
-    }
+    // const icon = {
+    //   url: '/assets/img/fx-marker.svg',
+    //   size: new googleMaps.current.Size(49, 76)
+    // }
     marker.current = new googleMaps.current.Marker({
       position,
-      icon,
+      // icon,
       map: map.current
     })
 
@@ -329,6 +286,66 @@ export const MapContent = () => {
       const { data }: any = await getCoordsPoint(position)
       saveLocation(data.results)
     }
+  }
+
+  const setMapPinDefault = async () => {
+    const icon = {
+      url: '/assets/img/fx-marker.svg',
+      size: new googleMaps.current.Size(49, 76)
+    }
+
+    console.log(dataLocationDefault, dataLocationDefault)
+    dataLocationDefault.forEach(({lat, lon, name, current}: any) => {
+      const newMarker = new googleMaps.current.Marker({
+        position: {lat, lng: lon},
+        icon,
+        title: name,
+        map: map.current
+      })
+
+      const contentString = `
+        <div class="content-info-map">
+          <div class="content-info-location-img">
+            <img src="/assets/img/clima/${current.weather[0].icon}.svg" />
+          </div> 
+
+          <a class="content-info-location-title" href="/ciudad/${name}">${name}</a>
+            <div class="content-info-location-data">
+              <div class="content-info-location-data-item">
+                <strong>Humedad: </strong> ${current.humidity}%
+              </div> 
+              <div class="content-info-location-data-item">
+                <strong>Temperatura: </strong> ${current.temp.toFixed(0)}°
+              </div> 
+              <div class="content-info-location-data-item">
+                <strong>Clima: </strong> ${current.weather[0].description}
+              </div> 
+            </div> 
+          </div> 
+
+        </div> 
+      `
+      const infowindow = new googleMaps.current.InfoWindow({
+        content: contentString,
+      })
+
+      infowindow.open({
+        backgroundClassName: 'infoStv',
+        anchor: newMarker,
+        map,
+      })
+
+      newMarker.addListener("click", () => {
+        infowindow.open({
+          anchor: newMarker,
+          map,
+        })
+      })
+
+    })
+
+
+   
   }
 
   const onChangeSearch = (ev: any) => {
@@ -349,53 +366,54 @@ export const MapContent = () => {
   return (
     <>
       <div className='mapContainer'>
-        <div className='search-input' ref={searchMap}>
-          <input
-            type='text'
-            value={valueSearch}
-            placeholder='Ingresa acá la ciudad'
-            name='address-component'
-            onChange={onChangeSearch}
-            onBlur={onChangeSearch}
-          />
-          <svg className='search-icon'>
-            <use xlinkHref='#svg-fx-search' />
-          </svg>
-          {
-            (listAutocomplete.length > 0 || load) &&
-              load
-              ? <div className='search-input-results load'><div className='loader-box' /></div>
-              : listAutocomplete.length > 0 && (
-                <div className='search-input-results'>
-                  {
-                    listAutocomplete.map((x: any, index: number) =>
-                      <div key={index} className='search-input-result-item' onClick={() => positionSelected(x)}>
-                        <svg className='icon'>
-                          <use xlinkHref='#svg-fx-location' />
-                        </svg>
-                        <span>{x.description}</span>
-                      </div>
-                    )
-                  }
-                </div>)
-          }
-        </div>
 
-        <div className='addressDialogTopActions' onClick={getPositionHandler}>
-          <svg className='search-icon'>
-            <use xlinkHref='#svg-fx-my-location' />
-          </svg>
-          <span>Encuéntrame</span>
-
-          <div className='FxInputAddressActions'>
-            <button className='bttn' disabled={!hasValue(addressObject)} onClick={() => changeView()}>VER MÁS DETALLES</button>
+        <div className='addressDialogTopActions'>
+          <div className='search-input' ref={searchMap}>
+            <div className="inputContainer">
+              <input
+                type='text'
+                value={valueSearch}
+                placeholder='Escribe la ciudad'
+                name='address-component'
+                onChange={onChangeSearch}
+                onBlur={onChangeSearch}
+              />
+              <svg className='search-icon'>
+                <use xlinkHref='#svg-search' />
+              </svg>
+            </div>
+            {
+              (listAutocomplete.length > 0 || load) &&
+                load
+                ? <div className='search-input-results load'><div className='loader-box' /></div>
+                : listAutocomplete.length > 0 && (
+                  <div className='search-input-results'>
+                    {
+                      listAutocomplete.map((x: any, index: number) =>
+                        <div key={index} className='search-input-result-item' onClick={() => positionSelected(x)}>
+                          <svg className='icon'>
+                            <use xlinkHref='#svg-location' />
+                          </svg>
+                          <span>{x.description}</span>
+                        </div>
+                      )
+                    }
+                  </div>)
+            }
           </div>
+          
+          <button className="addressDialogTopActionsItem bttn" onClick={() => changeView()}
+            disabled={!hasValue(addressObject)}>
+            VER DETALLES DEL LUGAR
+          </button>
+
         </div>
 
         <div className='googlemapWrapper'>
           <div id='googlemap' />
         </div>
       </div>
+
     </>
   )
 }
