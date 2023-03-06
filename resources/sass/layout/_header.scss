@@ -6,7 +6,6 @@
     width: 100%;
     z-index: 5;
 
-    
     img {
       height: 60px;
       width: auto;
@@ -21,13 +20,20 @@
         height: 94px;
         width: 100%;
         @include max-width-page;
-  
+        
+        @media(max-width: 500px) {
+          flex-direction: column;
+          min-height: 120px;
+        }
         .menu-container {
           align-items: center;
           display: grid;
           justify-content: end;
           grid-template-columns: max-content max-content;
           width: 100%;
+          @media(max-width: 500px) {
+            justify-content: center;
+          }
 
           .call-to-action-group {
             align-items: center;

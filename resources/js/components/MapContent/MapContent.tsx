@@ -305,7 +305,7 @@ export const MapContent = () => {
         <div class="content-info-map">
           <div class="content-info-location-img">
             <img src="/assets/img/clima/${current.weather[0].icon}.svg" />
-          </div> 
+          </div>
 
           <a class="content-info-location-title" href="/ciudad/${name}">${name}</a>
             <div class="content-info-location-data">

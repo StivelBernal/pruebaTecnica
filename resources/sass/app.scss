@@ -1,8 +1,10 @@
 @import './mixins.scss';
 @import './layout/colors';
 @import './layout/header';
+@import './layout/footer';
 @import './layout/fonts';
-@import './layout/map';
+@import './pages/map';
+@import './pages/city';
 
 
 html, body {
@@ -68,6 +70,7 @@ h1, h2, h3 {
 
 .content-wrapper {
   min-height: 70vh;
+  padding: 20px;
 }
 .fx-row {
   display: flex;
